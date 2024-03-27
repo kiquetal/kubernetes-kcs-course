@@ -102,7 +102,7 @@ Modify the pod-watch Pod to use the new service account. Note that you will need
 
 1- Create Role
 
-
+```yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
@@ -112,9 +112,10 @@ rules:
 - apiGroups: [""]
   resources: ["pods", "pods/log"]
   verbs: ["get", "watch", "list"]
-
+```
 2- Create SA
 
+```yaml
 
 apiVersion: v1
 kind: ServiceAccount
@@ -122,9 +123,11 @@ metadata:
   name: pod-monitor
   namespace: auth
 automountServiceAccountToken: true
-
+```
 
 3- Creare RoleBinding
+
+```yaml
 
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -140,8 +143,11 @@ roleRef:
   name: role-svc-monitor
   apiGroup: rbac.authorization.k8s.io
 
+```
 
 4- Update pod
+
+```yaml
 
 apiVersion: v1
 kind: Pod
@@ -154,8 +160,12 @@ spec:
   - name: busybox
     image: radial/busyboxplus:curl
     command: ['sh', '-c', 'TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token); while true; do if curl -s -o /dev/null -k -m 3 -H "Authorization: Bearer $TOKEN" https://kubernetes.default.svc.cluster.local/api/v1/namespaces/auth/pods/; then echo "[SUCCESS] Successfully viewed Pods!"; else echo "[FAIL] Failed to view Pods!"; fi; sleep 5; done']
-~                                                                                                                                                                                             
-~                                                                                                                                                                                             
+
+```                                                                                                                                                                                             
+                                                                                                                                                                                             
+### Restricting access to K8S Apis
+
+
 ~                                                                                                                                                                                             
 ~                                                                                                                                                                                             
 ~                                                                                                                                                                                             
