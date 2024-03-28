@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-configmap
+data:
+  my-config.json: |
+    {
+        "key": "value",
+        "anotherKey": "anotherValue"
+    }
+  additional-key: "additional value"
+
