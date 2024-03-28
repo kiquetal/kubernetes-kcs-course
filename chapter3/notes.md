@@ -165,7 +165,19 @@ spec:
                                                                                                                                                                                              
 ### Restricting access to K8S Apis
 
-- Prohibits access to cluster from outside.
+- Prohibits access to cluster from outside
+
+
+
+### Exploring AppArmor
+
+LinuxSecurity kernel module. Granular access control
+AppArmor profile is a set of rules that define what program can and cannot do.
+
+
+### Lab protect kubernetes cluster using apparmor.
+
+
 
 ~                                                                                                                                                                                             
 ~                                                                                                                                                                                             
