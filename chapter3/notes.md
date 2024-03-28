@@ -165,6 +165,7 @@ spec:
                                                                                                                                                                                              
 ### Restricting access to K8S Apis
 
+- Prohibits access to cluster from outside.
 
 ~                                                                                                                                                                                             
 ~                                                                                                                                                                                             
