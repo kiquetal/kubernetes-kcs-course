@@ -177,9 +177,63 @@ AppArmor profile is a set of rules that define what program can and cannot do.
 
 ### Lab protect kubernetes cluster using apparmor.
 
+Load profile to apparmor
+
+sudo apparmor_parser /path/to/file
+
+Create on the control-node
+```bash
+
+#include <tunables/gloabal>
+profile deny-write flags=(attach_disconnected) {
+ # include <abstractions/base>
+ file,
+ # Deny all file writes
+ deny /** w,
+}
+
+```
+
+***be aware to create the profile on all the nodes***
 
 
-~                                                                                                                                                                                             
-~                                                                                                                                                                                             
-~                                                                                                                                                                                             
-~                                                                                                                                                                                          
+
+sudo apparmor_parser /etc/apparmor.d/deny-twrite
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: apparmor-disk-write
+  annotations:
+    container.apparmor.security.beta.kubernetes.io/busybox: localhost/deny-write
+spec:
+  containers:
+    - name: busybox
+      image: busybox
+      command:['sh','-c','while true; do echo "I write to the disk!" > diskwrite.log; sleep 5; done;]
+
+```
+
+### Lab hands on
+
+- On worker and control apply the apparmor
+
+
+```bash
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: password-db
+  namespace: auth
+  annotations:
+    container.apparmor.security.beta.kubernetes.io/password-db: localhost/k8s-deny-write
+spec:
+  containers:
+  - name: password-db
+    image: radial/busyboxplus:curl
+    command: ['sh', '-c', 'while true; do if echo "The password is hunter2" > password.txt; then echo "Password hunter2 logged."; else echo "Password log attempt blocked."; fi; sleep 5; done']
+  
+``
+` 
