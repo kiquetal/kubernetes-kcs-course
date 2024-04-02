@@ -127,4 +127,32 @@ spec:
 
 ```
 
+
+### OPA Gaekeepr
+
+Open Policy Agent Gatekeeper (OPA)
+
+You can control:
+
+- Image repos
+- ResourceLimits
+- Labels
+
+### Secrets
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-secret
+type: Opaque
+data:
+  username: YWRtaW4K
+  password: Y2FudGZpbmRtZQo
+
+```
+
+kubectl get secret my-secret -o yaml >> db.yaml
+
+
  
